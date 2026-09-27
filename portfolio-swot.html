@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Алина Иванова — портфолио</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf9f6; --paper:#ffffff; --ink:#20241f; --muted:#6b6f68;
+    --accent:#2f5233; --accent-soft:#e4ecdf; --line:#dedad0;
+    --s:#3f6b3f; --w:#a3402f; --o:#b17b2c; --t:#4a4a86;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#161a15; --paper:#1e231c; --ink:#eef0ea; --muted:#9aa192;
+      --accent:#8fbf8a; --accent-soft:#26301f; --line:#33392e;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#161a15; --paper:#1e231c; --ink:#eef0ea; --muted:#9aa192;
+    --accent:#8fbf8a; --accent-soft:#26301f; --line:#33392e;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top:64px;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Inter', Arial, sans-serif; line-height:1.5;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  h1,h2,h3{font-family:'Fraunces', Georgia, serif; font-weight:600; margin:0;}
+  a{color:var(--accent);}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  nav.top{
+    position:sticky; top:env(safe-area-inset-top,0px); z-index:10;
+    background:var(--bg); border-bottom:1px solid var(--line);
+  }
+  nav.top .inner{
+    max-width:860px; margin:0 auto; padding:14px 20px; display:flex;
+    justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
+  }
+  nav.top .name{font-family:'Fraunces', serif; font-weight:600; font-size:16px;}
+  nav.top .links{display:flex; gap:18px; font-size:13.5px;}
+  nav.top .links a{text-decoration:none; color:var(--muted);}
+  nav.top .links a:hover{color:var(--ink);}
+
+  .wrap{max-width:860px; margin:0 auto; padding:0 20px;}
+
+  header.hero{padding:64px 0 56px; border-bottom:1px solid var(--line);}
+  header.hero h1{font-size:clamp(32px,5vw,44px); line-height:1.15; max-width:11ch;}
+  header.hero .tagline{color:var(--muted); font-size:16px; margin:16px 0 24px; max-width:46ch;}
+  .btnrow{display:flex; gap:10px; flex-wrap:wrap;}
+  .btn{
+    padding:10px 18px; border-radius:6px; border:1px solid var(--line);
+    background:var(--paper); color:var(--ink); text-decoration:none; font-size:13.5px;
+    cursor:pointer; font-family:inherit;
+  }
+  .btn.primary{background:var(--accent); color:var(--bg); border-color:var(--accent);}
+
+  section{padding:52px 0; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  section h2{font-size:22px; margin-bottom:18px;}
+  p.lead{color:var(--muted); max-width:60ch;}
+
+  .skills{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{border:1px solid var(--line); border-radius:6px; padding:6px 12px; font-size:13px;}
+
+  .projects{display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line);}
+  .pcard{background:var(--paper); padding:20px;}
+  .pcard h3{font-size:16px; margin-bottom:6px;}
+  .pcard p{color:var(--muted); font-size:13.5px; margin:0 0 10px;}
+  .pcard a{font-size:13px; text-decoration:none;}
+
+  .swot-intro{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom:18px;}
+  .progress-wrap{font-size:12.5px; color:var(--muted); min-width:160px;}
+  .progress-bar{height:5px; background:var(--line); border-radius:3px; margin-top:6px; overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:var(--accent); transition:width .25s ease;}
+
+  .swot-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line);}
+  @media (max-width:600px){.swot-grid{grid-template-columns:1fr;}}
+  .swot-card{background:var(--paper); padding:18px; cursor:pointer;}
+  .swot-card .head{display:flex; align-items:center; gap:10px;}
+  .dot{width:10px; height:10px; border-radius:50%; flex-shrink:0;}
+  .swot-card h3{font-size:15px; font-family:'Inter',sans-serif; font-weight:600; flex:1;}
+  .swot-card .caret{color:var(--muted); font-size:12px; transition:transform .15s;}
+  .swot-card.open .caret{transform:rotate(180deg);}
+  .swot-card .body{display:none; margin-top:12px;}
+  .swot-card.open .body{display:block;}
+  .swot-card textarea{
+    width:100%; min-height:88px; border-radius:6px; border:1px solid var(--line);
+    background:var(--bg); color:var(--ink); font-family:inherit; font-size:13px; padding:10px;
+    resize:vertical;
+  }
+  .swot-card textarea:focus{outline:2px solid var(--accent); outline-offset:1px;}
+
+  .rec-box{margin-top:20px; background:var(--accent-soft); border-radius:8px; padding:20px;}
+  .rec-box h3{font-family:'Inter',sans-serif; font-size:15px; font-weight:600; margin-bottom:8px;}
+  #recText{color:var(--ink); font-size:13.5px; line-height:1.7; white-space:pre-line;}
+
+  form.contact{display:flex; flex-direction:column; gap:10px; max-width:420px;}
+  form.contact input, form.contact textarea{
+    padding:10px; border-radius:6px; border:1px solid var(--line);
+    background:var(--paper); color:var(--ink); font-family:inherit; font-size:13.5px;
+  }
+  footer{color:var(--muted); font-size:12px; text-align:center; padding:32px 0 48px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="inner">
+    <span class="name">Алина Иванова</span>
+    <div class="links">
+      <a href="#about">Обо мне</a>
+      <a href="#projects">Проекты</a>
+      <a href="#swot">SWOT</a>
+      <a href="#contact">Контакты</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <h1>Учусь делать вещи, которыми потом реально можно пользоваться</h1>
+    <p class="tagline">Студентка 3 курса, направление «Информатика». Ищу стажировку в веб-разработке — на этой странице собраны мои проекты и живой инструмент самоанализа, который я сделала как часть учебного проекта.</p>
+    <div class="btnrow">
+      <a class="btn primary" href="#contact">Написать мне</a>
+      <a class="btn" href="#" onclick="return false;">Резюме (PDF)</a>
+      <a class="btn" href="#" onclick="return false;">GitHub</a>
+    </div>
+  </header>
+
+  <section id="about">
+    <h2>Обо мне</h2>
+    <p class="lead">Учусь на 3 курсе по направлению «Информатика», параллельно делаю учебные и пет-проекты на JavaScript и Python. Интересуюсь фронтендом и аналитикой данных. Люблю разбираться в новых инструментах и доводить проекты до готового результата, а не бросать на середине.</p>
+  </section>
+
+  <section id="skills-section">
+    <h2>Навыки</h2>
+    <div class="skills">
+      <span class="chip">HTML / CSS</span>
+      <span class="chip">JavaScript</span>
+      <span class="chip">Python</span>
+      <span class="chip">Git</span>
+      <span class="chip">SQL (базово)</span>
+      <span class="chip">Figma</span>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Проекты</h2>
+    <div class="projects">
+      <div class="pcard">
+        <h3>Трекер учебных задач</h3>
+        <p>Веб-приложение на JS для планирования дедлайнов по предметам.</p>
+        <a href="#">Смотреть →</a>
+      </div>
+      <div class="pcard">
+        <h3>Бот-помощник по расписанию</h3>
+        <p>Telegram-бот, присылающий напоминания о парах и дедлайнах.</p>
+        <a href="#">Смотреть →</a>
+      </div>
+      <div class="pcard">
+        <h3>Анализ данных опроса группы</h3>
+        <p>Обработка результатов Google-формы и визуализация в Python.</p>
+        <a href="#">Смотреть →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="swot">
+    <div class="swot-intro">
+      <div>
+        <h2>Мой SWOT-анализ</h2>
+        <p class="lead">Нажмите на карточку, чтобы раскрыть и отредактировать пункты. Данные сохраняются в этом браузере.</p>
+      </div>
+      <div class="progress-wrap">
+        <span id="progressLabel">Заполнено: 0 из 4</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+
+    <div class="swot-grid">
+      <div class="swot-card" data-key="s">
+        <div class="head"><span class="dot" style="background:var(--s)"></span><h3>Сильные стороны</h3><span class="caret">▾</span></div>
+        <div class="body">
+          <textarea placeholder="Например: ответственность, аналитическое мышление...">Ответственность, аналитическое мышление, быстро осваиваю новые инструменты</textarea>
+        </div>
+      </div>
+      <div class="swot-card" data-key="w">
+        <div class="head"><span class="dot" style="background:var(--w)"></span><h3>Слабые стороны</h3><span class="caret">▾</span></div>
+        <div class="body">
+          <textarea placeholder="Например: прокрастинация, страх выступлений...">Прокрастинация в начале задач, боюсь публичных выступлений</textarea>
+        </div>
+      </div>
+      <div class="swot-card" data-key="o">
+        <div class="head"><span class="dot" style="background:var(--o)"></span><h3>Возможности</h3><span class="caret">▾</span></div>
+        <div class="body">
+          <textarea placeholder="Например: курсы, стажировки, менторство...">Стажировки в IT-компаниях, онлайн-курсы по фронтенду, участие в хакатонах</textarea>
+        </div>
+      </div>
+      <div class="swot-card" data-key="t">
+        <div class="head"><span class="dot" style="background:var(--t)"></span><h3>Угрозы</h3><span class="caret">▾</span></div>
+        <div class="body">
+          <textarea placeholder="Например: конкуренция, дефицит времени...">Высокая конкуренция среди junior-разработчиков, мало свободного времени</textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="btnrow" style="margin-top:16px;">
+      <button class="btn primary" id="genRec">Обновить рекомендацию</button>
+    </div>
+
+    <div class="rec-box">
+      <h3>Рекомендация</h3>
+      <div id="recText">Заполните карточки и нажмите «Обновить рекомендацию».</div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Связаться со мной</h2>
+    <form class="contact" onsubmit="event.preventDefault(); alert('Демо-форма: сообщение не отправляется по-настоящему.');">
+      <input type="text" placeholder="Ваше имя" required>
+      <input type="email" placeholder="Email" required>
+      <textarea rows="4" placeholder="Сообщение" required></textarea>
+      <button class="btn primary" type="submit" style="align-self:flex-start;">Отправить</button>
+    </form>
+  </section>
+
+  <footer>Демо-портфолио · учебный прототип</footer>
+</div>
+
+<script>
+  const cards = document.querySelectorAll('.swot-card');
+  const areas = {};
+  cards.forEach(c => {
+    const key = c.dataset.key;
+    const ta = c.querySelector('textarea');
+    areas[key] = ta;
+    c.querySelector('.head').addEventListener('click', () => c.classList.toggle('open'));
+    ta.addEventListener('click', e => e.stopPropagation());
+    ta.addEventListener('input', updateProgress);
+    try {
+      const saved = localStorage.getItem('swot_' + key);
+      if (saved) ta.value = saved;
+    } catch(e) {}
+  });
+
+  function updateProgress(){
+    const filled = Object.values(areas).filter(a => a.value.trim().length > 0).length;
+    document.getElementById('progressLabel').textContent = `Заполнено: ${filled} из 4`;
+    document.getElementById('progressFill').style.width = (filled/4*100) + '%';
+  }
+  updateProgress();
+
+  function saveAll(){
+    try { Object.keys(areas).forEach(k => localStorage.setItem('swot_' + k, areas[k].value)); } catch(e) {}
+  }
+
+  const KEYWORDS = {
+    tech: { words: ['аналит','код','программ','данн','frontend','фронтенд','python','javascript','it','айти'], msg: 'У тебя явный крен в аналитику/разработку — рассмотри стажировки в IT-направлении (frontend, data) и участие в хакатонах.' },
+    speak: { words: ['выступлен','сцен','публичн'], msg: 'Страх выступлений можно снять практикой: запишись на курс публичных выступлений или бери роль спикера на учебных семинарах.' },
+    time: { words: ['прокрастинац','времен','дедлайн'], msg: 'Стоит поработать над тайм-менеджментом — метод Pomodoro и декомпозиция задач помогут снизить прокрастинацию.' },
+    compete: { words: ['конкуренц'], msg: 'Высокая конкуренция — усиливай портфолио реальными проектами, это выделит тебя среди других кандидатов.' }
+  };
+
+  document.getElementById('genRec').addEventListener('click', () => {
+    saveAll();
+    const allText = Object.values(areas).map(a => a.value.toLowerCase()).join(' ');
+    let recs = [];
+    Object.values(KEYWORDS).forEach(rule => {
+      if (rule.words.some(w => allText.includes(w))) recs.push(rule.msg);
+    });
+    if (recs.length === 0) recs.push('Заполни карточки подробнее — рекомендация строится по ключевым словам в твоих ответах.');
+    document.getElementById('recText').textContent = recs.join('\n\n');
+  });
+</script>
+</body>
+</html>
